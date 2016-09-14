@@ -1,0 +1,38 @@
+\documentclass{article}
+\usepackage{graphicx, amssymb}
+
+\begin{document}
+
+\title{Gravitational Lensing Expressions}
+
+\maketitle
+
+\section{---}
+
+In the following I use O, S and L to denote the Observer, Source and Lens positions, respectively. P denotes any point in the ray of light we deal with. The lensing equation is
+\begin{equation}
+    \label{eq1}
+    \frac{d^2u}{d\theta^2}+u=\frac{3}{2}r_gu^2
+\end{equation}
+where $u\equiv1/r$, the radius $r\equiv LP$, and $\theta\equiv \measuredangle SLP$. The gravitational radius $r_g$ is the Schwarzschild radius 
+\begin{equation}
+    \label{eq2}
+    r_g=\frac{2MG}{c^2}
+\end{equation}
+where $c$ is the speed of light and M the lens mass.
+
+For thin lens approximation I use a couple of definitions: the "breaking point" (B) is a point on the incomming ray at which $\measuredangle SBL=\pi/2$, the incoming ray angle $\phi\equiv \measuredangle BSL$ and the impact parameter $b\equiv BL$. Given some $\phi$, the breaking point B and the impact parameter $b$ are calculated, the incoming ray is deflected at B (stays the same before B) such that $\phi_{afterB}=\phi-2r_g/b$. This assumes that the impact parameter $b$ is much larger than the gravitational radius $r_g$ (this is the thins lens approximation assumption)
+
+Calculating the time of travel is done as follows:
+\begin{equation}
+    \label{eq3}
+    \Delta t_{ray} = \int_{Ray} \frac{dp}{c} \left( 1- \frac{r_g}{r(p)}\right)^{-\frac{1}{2}} 
+\end{equation}
+the square root term is the regular gravitational time dilation.
+
+For extended masses I think changing $r_g$ to depend on the inner mass at P, the numerics should work just fine for both thin and thick lenses. The metric outside a static spherical symmetric mass doesn't care of the exact inner structure.
+
+Thoughts, comments?  
+
+
+\end{document}
