@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.7.7)  18 SEP 2016 23:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.7.7)  19 SEP 2016 20:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -216,69 +216,77 @@ LaTeX Warning: No \author given.
 [1
 
 {/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2] <zoom_1.png, id=21, 505.1673pt x 402.5439pt>
+[2] <zoom_1.png, id=22, 505.1673pt x 402.5439pt>
 File: zoom_1.png Graphic file (type png)
  <use zoom_1.png>
-Package pdftex.def Info: zoom_1.png used on input line 85.
+Package pdftex.def Info: zoom_1.png used on input line 87.
 (pdftex.def)             Requested size: 300.0pt x 239.05898pt.
 
-<zoom_2.png, id=23, 535.5207pt x 409.0482pt> [3]
+<zoom_2.png, id=24, 535.5207pt x 409.0482pt> [3]
 File: zoom_2.png Graphic file (type png)
  <use zoom_2.png>
-Package pdftex.def Info: zoom_2.png used on input line 87.
+Package pdftex.def Info: zoom_2.png used on input line 89.
 (pdftex.def)             Requested size: 300.0pt x 229.1528pt.
 
-<zoom_3.png, id=28, 539.8569pt x 409.0482pt>
+<zoom_3.png, id=28, 547.0839pt x 411.939pt>
 File: zoom_3.png Graphic file (type png)
  <use zoom_3.png>
-Package pdftex.def Info: zoom_3.png used on input line 89.
-(pdftex.def)             Requested size: 300.0pt x 227.31154pt.
+Package pdftex.def Info: zoom_3.png used on input line 91.
+(pdftex.def)             Requested size: 300.0pt x 225.89456pt.
 
 <u1.png, id=29, 520.344pt x 402.5439pt> [4 <./zoom_1.png> <./zoom_2.png>]
 File: u1.png Graphic file (type png)
 
 <use u1.png>
-Package pdftex.def Info: u1.png used on input line 91.
+Package pdftex.def Info: u1.png used on input line 93.
 (pdftex.def)             Requested size: 300.0pt x 232.0936pt.
  <u2.png, id=35, 509.5035pt x 402.5439pt>
 File: u2.png Graphic file (type png)
  <use u2.png>
-Package pdftex.def Info: u2.png used on input line 93.
+Package pdftex.def Info: u2.png used on input line 95.
 (pdftex.def)             Requested size: 300.0pt x 237.01973pt.
 
 <missing_the_lens.png, id=36, 523.9575pt x 411.939pt> [5 <./zoom_3.png> <./u1.p
 ng>]
 File: missing_the_lens.png Graphic file (type png)
  <use missing_the_lens.png>
-Package pdftex.def Info: missing_the_lens.png used on input line 95.
+Package pdftex.def Info: missing_the_lens.png used on input line 97.
 (pdftex.def)             Requested size: 300.0pt x 235.86993pt.
+
+<missing_the_lens_zoom.png, id=42, 535.5207pt x 411.939pt>
+File: missing_the_lens_zoom.png Graphic file (type png)
+
+<use missing_the_lens_zoom.png>
+Package pdftex.def Info: missing_the_lens_zoom.png used on input line 99.
+(pdftex.def)             Requested size: 300.0pt x 230.77225pt.
  [6 <./u2.png> <./missing_the_lens.png>]
-(./lensing.aux) ) 
+[7 <./missing_the_lens_zoom.png>] (./lensing.aux) ) 
 Here is how much of TeX's memory you used:
- 2419 strings out of 493014
- 31962 string characters out of 6133352
+ 2424 strings out of 493014
+ 32106 string characters out of 6133352
  96449 words of memory out of 5000000
- 5929 multiletter control sequences out of 15000+600000
+ 5933 multiletter control sequences out of 15000+600000
  10888 words of font info for 43 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,10n,26p,923b,199s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmex10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmmi10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmmi5.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmmi7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-r10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr1
-2.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.
-pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb
-></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></
-usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></u
-sr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr
-/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on lensing.pdf (6 pages, 366285 bytes).
+ 38i,10n,26p,922b,199s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2016/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2016/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2016/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2016/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2016/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2016/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2016/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2016/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/pu
+blic/amsfonts/symbols/msam10.pfb>
+Output written on lensing.pdf (7 pages, 403712 bytes).
 PDF statistics:
- 88 PDF objects out of 1000 (max. 8388607)
- 54 compressed objects within 1 object stream
+ 95 PDF objects out of 1000 (max. 8388607)
+ 58 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 31 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,6 +1,8 @@
 {
   "language": "en",
   "ignoreWordsList": [
+    "theta",
+    "1D",
     "documentclass",
     "useAMS",
     "usenatbib",
@@ -48,7 +50,9 @@
     "iteratively",
     "PIZA",
     "Brenier",
-    "subhalos"
+    "subhalos",
+    "numerics",
+    "arctan"
   ],
   "mistakeTypeToStatus": {
     "Passive voice": "Hint",
