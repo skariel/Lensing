@@ -22,7 +22,7 @@ function _numeric_f(f, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14)
     out_angle =  ray_angle( ϕl[end], 1/u[end], du[end])
     in_angle =  atan(tgα)
 
-    x, y, u, du, in_angle, -out_angle, out_angle+in_angle
+    x, y, u, du, in_angle, -out_angle, out_angle+in_angle, ϕ
 end
 
 function numeric(massfunc, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14)

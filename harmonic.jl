@@ -16,8 +16,9 @@ function harmonic(a, M200, θ0, tgα0, N=100)
     u = A*cos(ω*ϕl+ϕ)
     du = -A*ω*sin(ω*ϕl+ϕ)
 
-    ixs = find(u.>u0)
+    ixs = find(u.>=u0)
     u=u[ixs]
+    du = du[ixs]
     ϕl = ϕl[ixs]
     
     x = [Float64(v) for v in -cos(ϕl)./u]
@@ -26,6 +27,6 @@ function harmonic(a, M200, θ0, tgα0, N=100)
     out_angle =  ray_angle( ϕl[end], 1/u[end], du[end])
     in_angle =  atan(tgα0)
 
-    x, y, u, du, in_angle, -out_angle, out_angle+in_angle
+    x, y, u, du, in_angle, -out_angle, out_angle+in_angle, ϕl
 end
 

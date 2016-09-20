@@ -33,7 +33,7 @@ function thin(proj_massfunc, θ, rs, tgα, N=100)
     θ = atan2(y, x)
     du = dudθ(θ, tgα, 1./u) # TODO: test this du is probably wrong, and not currently used
 
-    x, y, u, du, in_angle, out_angle, deflection_angle
+    x, y, u, du, in_angle, out_angle, deflection_angle, π-atan2(y,x)
 end
 
 thin_tiso(a, M200, θ, rs, tgα, N=100) =
