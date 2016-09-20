@@ -1,5 +1,6 @@
 
-function numerical(massfunc, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14)
+function numeric(massfunc, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14)
+    tgα = -tgα
     ϕm=π
     ϕl = linspace(θ, π, N)    
     function f(ϕ, y)
@@ -23,11 +24,11 @@ function numerical(massfunc, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14
     x = [Float64(v) for v in -cos(ϕ)./u]
     y = [Float64(v) for v in sin(ϕ)./u]
 
-    out_angle =  angle( ϕl[end], 1/u[end], du[end])
+    out_angle =  ray_angle( ϕl[end], 1/u[end], du[end])
     in_angle =  atan(tgα)
 
     x, y, u, du, in_angle, -out_angle, out_angle+in_angle
 end
 
-numerical_tiso(a, M200, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14) =
-    numerical(r->tiso_m(a, M200, r), θ, rs, tgα, 100; abstol=abstol, reltol=reltol) 
+numeric_tiso(a, M200, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14) =
+    numeric(r->tiso_m(a, M200, r), θ, rs, tgα, N; abstol=abstol, reltol=reltol) 

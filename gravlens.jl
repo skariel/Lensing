@@ -9,5 +9,5 @@ include("cosmology.jl")
 include("rays.jl")
 include("mass.jl")
 include("harmonic.jl")
-include("numerical.jl");
+include("numeric.jl");
 include("thin.jl")

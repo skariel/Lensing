@@ -31,7 +31,6 @@ end
 function tiso_mp(a, M200, rp)
     R = R200(a, M200)
     rp = min(R, rp)
-    @show R, rp
     quadgk(rp->2.*π.*rp.*tiso_Ψ(a, M200, rp), 0.0, rp)[1]
 end
 
