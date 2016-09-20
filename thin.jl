@@ -1,8 +1,9 @@
+
 function thin(proj_massfunc, θ, rs, tgα, N=100)
     const cθ = cos(θ)
     const sθ = sin(θ)    
     const x0 = -rs*cθ
-    @show const y0 = rs*sθ
+    const y0 = rs*sθ
     const b = y0-tgα*x0
     const α=atan(tgα)
     const M0p = proj_massfunc(b)
@@ -36,4 +37,6 @@ function thin(proj_massfunc, θ, rs, tgα, N=100)
 end
 
 thin_tiso(a, M200, θ, rs, tgα, N=100) =
-    thin(r->tiso_mp(a, M200, r), θ, rs, tgα, N) 
+    thin(r->tiso_mp(a, M200, r), θ, rs, tgα, N)
+
+
