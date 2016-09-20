@@ -54,3 +54,15 @@ D2(a) = -3/7*D(a)^2
 
 F(a) = OM(a)^(5/9)
 F2(a) = 2*OM(a)^(6/11)
+
+# mean density
+Z(a) = 1./a-1
+ρ0(a) = OM(a).*RHO_CRIT
+function R200(a, m)
+    v200 = m./ρ0(a)./200
+    (v200.*3./4./π).^(1/3) 
+end
+
+
+
+
