@@ -54,7 +54,7 @@ function numeric_tiso_el(a, M200, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.
     u = 1/rs
     _rg = rg(M200)
     _e = 1/(1-2*_rg*u)
-    e2l2 = du*du + u*u*e 
+    e2l2 = du*du + u*u*_e 
     numeric_el(r->tiso_m(a, M200, r), r->tiso_ρ(a, M200, r),
                 θ, rs, tgα, e2l2, N; abstol=abstol, reltol=reltol) 
 end
