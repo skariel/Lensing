@@ -27,6 +27,6 @@ function harmonic(a, M200, θ0, tgα0, N=100)
     out_angle =  ray_angle( ϕl[end], 1/u[end], du[end])
     in_angle =  atan(tgα0)
 
-    x, y, u, du, in_angle, -out_angle, out_angle+in_angle, ϕl
+    x, y, u, du, -in_angle, out_angle, -out_angle-in_angle, ϕl
 end
 

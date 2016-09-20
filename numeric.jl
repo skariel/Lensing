@@ -3,12 +3,12 @@
 function _numeric_f(f, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14)
     tgα = -tgα
     ϕm=π
-    ϕl = linspace(θ, π, N)    
+    ϕl = mylinspace(θ, π, N)    
     u0 = 1/rs
     du0 = dudθ(θ, tgα, rs)
     start = [u0; du0];
     
-    ϕ, y = ode45(f, start, ϕl, abstol=abstol, reltol=reltol);
+    ϕ, y = ode78(f, start, ϕl, abstol=abstol, reltol=reltol);
     u = map(y -> y[1], y);
     du = map(y -> y[2], y);
     ixs = find(u.>0)
@@ -19,10 +19,10 @@ function _numeric_f(f, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14)
     x = [Float64(v) for v in -cos(ϕ)./u]
     y = [Float64(v) for v in sin(ϕ)./u]
 
-    out_angle =  ray_angle( ϕl[end], 1/u[end], du[end])
+    out_angle =  ray_angle(ϕ[end], 1/u[end], du[end])
     in_angle =  atan(tgα)
 
-    x, y, u, du, in_angle, -out_angle, out_angle+in_angle, ϕ
+    x, y, u, du, -in_angle, out_angle, -out_angle-in_angle, ϕ
 end
 
 function numeric(massfunc, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14)

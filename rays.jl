@@ -31,3 +31,9 @@ function ray_angle(θ, r, dudθ)
 end
 
 
+function mylinspace(i,f,N)
+    l = linspace(0,1,div(N,2)).^0.001
+    ll = π/2-i
+    lr = f-π/2
+    [(1-reverse(l)).*ll+i; l.*lr+π/2]
+end
