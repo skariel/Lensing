@@ -37,7 +37,13 @@ function numeric(massfunc, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14)
     _numeric_f(f, θ, rs, tgα, N; abstol=abstol, reltol=reltol)
 end
 
-function numeric_el(massfunc, rhofunc, θ, rs, tgα, e2l2, N=100; abstol=1.0e-13, reltol=1.0e-14)
+function numeric_el(massfunc, rhofunc, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14)
+    M200 = massfunc(1.0e30) # infinity, ha!
+    du = dudθ(θ, tgα, rs)
+    u = 1/rs
+    _rg = rg(M200)
+    _e = 1/(1-2*_rg*u)
+    e2l2 = du*du + u*u*_e
     function f(ϕ, y)
         (u, v) = y
         _rg = rg(massfunc(1./u))
@@ -51,12 +57,6 @@ end
 numeric_tiso(a, M200, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14) =
     numeric(r->tiso_m(a, M200, r), θ, rs, tgα, N; abstol=abstol, reltol=reltol) 
 
-function numeric_tiso_el(a, M200, θ, rs, tgα, N=100; abstol=1.0e-19, reltol=1.0e-21)
-    du = dudθ(θ, tgα, rs)
-    u = 1/rs
-    _rg = rg(M200)
-    _e = 1/(1-2*_rg*u)
-    e2l2 = du*du + u*u*_e 
+numeric_tiso_el(a, M200, θ, rs, tgα, N=100; abstol=1.0e-19, reltol=1.0e-21) =
     numeric_el(r->tiso_m(a, M200, r), r->tiso_ρ(a, M200, r),
-                θ, rs, tgα, e2l2, N; abstol=abstol, reltol=reltol) 
-end
+                θ, rs, tgα, N; abstol=abstol, reltol=reltol) 

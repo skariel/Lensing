@@ -41,9 +41,18 @@ end
 ###################################################################
 
 function tnfw_m(a, M200, RS, r)
+    if r<=0
+        r=1.0e-3
+    end
     R=R200(a, M200)
     rr200 = RS+R
-    k = M200./(log(rr200./RS)-R./rr200)
+    k=0.0
+    try
+        k = M200./(log(rr200./RS)-R./rr200)
+    catch
+        @show rr200, RS, R
+        error("xxxxxxxx")
+    end
     r = min(R, r)
     rrs = RS+r
     (log(rrs./RS)-r./rrs).*k
