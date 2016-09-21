@@ -30,3 +30,35 @@ function harmonic(a, M200, θ0, tgα0, N=100)
     x, y, u, du, -in_angle, out_angle, -out_angle-in_angle, ϕl
 end
 
+function harmonic_e(a, M200, rmin, θ0, N=100)
+    R=R200(a,M200)
+    m0 = M200*G/C/C
+    ω=sqrt(1.0-3*m0/R)
+    
+    ϕ = linspace(-π/2, π/2, N)
+    α = ω.*ϕ
+    cα = cos(α)
+    sα = sin(α)
+
+    u = +cα/rmin + m0/R/rmin/ω/ω * (α.*sα+cα.*log(cα))
+
+    ixs = find(u.>((1./R)))
+    u=u[ixs]
+    ϕ=ϕ[ixs]
+
+    dx=hex[2]-hex[1]
+    dy=hey[2]-hey[1]
+    a1 = atan2(dy,dx)
+    dx=ex[2]-ex[1]
+    dy=ey[2]-ey[1]
+    a2 = atan2(dy,dx)
+
+    @show dα = π/2+a1-a2
+    θ = ϕ+dα
+
+    x = [Float64(v) for v in -cos(θ)./u]
+    y = [Float64(v) for v in sin(θ)./u]
+
+    x, y, u, θ
+end
+
