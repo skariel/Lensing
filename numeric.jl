@@ -1,6 +1,6 @@
 
 
-function _numeric_f(f, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14)
+function _numeric_f(f, θ, rs, tgα, N=100; abstol=1.0e-9, reltol=1.0e-9, use78=false)
     tgα = -tgα
     ϕm=π
     ϕl = mylinspace(θ, π, N)    
@@ -8,7 +8,9 @@ function _numeric_f(f, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14)
     du0 = dudθ(θ, tgα, rs)
     start = [u0; du0];
     
-    ϕ, y = ode23(f, start, ϕl, abstol=abstol, reltol=reltol);
+    ϕ, y = use78?
+        ode78(f, start, ϕl, abstol=abstol, reltol=reltol) :
+        ode45(f, start, ϕl, abstol=abstol, reltol=reltol);
     u = map(y -> y[1], y);
     du = map(y -> y[2], y);
     ixs = find(u.>0)
@@ -43,13 +45,13 @@ function numeric_el(massfunc, rhofunc, θ, rs, tgα, e2l2, N=100; abstol=1.0e-13
         v_prime = 3*_rg.*u.*u-u+e2l2*4*π*G*rhofunc(1./u)/C/C/u/u/u
         [u_prime; v_prime]    
     end
-    _numeric_f(f, θ, rs, tgα, N; abstol=abstol, reltol=reltol)
+    _numeric_f(f, θ, rs, tgα, N; abstol=abstol, reltol=reltol, use78=true)
 end
 
 numeric_tiso(a, M200, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14) =
     numeric(r->tiso_m(a, M200, r), θ, rs, tgα, N; abstol=abstol, reltol=reltol) 
 
-function numeric_tiso_el(a, M200, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14)
+function numeric_tiso_el(a, M200, θ, rs, tgα, N=100; abstol=1.0e-19, reltol=1.0e-21)
     du = dudθ(θ, tgα, rs)
     u = 1/rs
     _rg = rg(M200)
