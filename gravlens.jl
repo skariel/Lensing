@@ -11,3 +11,4 @@ include("mass.jl")
 include("harmonic.jl")
 include("numeric.jl");
 include("thin.jl")
+include("time.jl")
