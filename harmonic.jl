@@ -21,8 +21,8 @@ function harmonic(a, M200, θ0, tgα0, N=100)
     du = du[ixs]
     ϕl = ϕl[ixs]
     
-    x = [Float64(v) for v in -cos(ϕl)./u]
-    y = [Float64(v) for v in sin(ϕl)./u]
+    x = [v for v in -cos(ϕl)./u]
+    y = [v for v in sin(ϕl)./u]
         
     out_angle =  ray_angle( ϕl[end], 1/u[end], du[end])
     in_angle =  atan(tgα0)
@@ -56,8 +56,8 @@ function harmonic_e(a, M200, rmin, tgα, N=100)
     θ = ϕ+dα
     @show dα-π/2
 
-    x = [Float64(v) for v in -cos(θ)./u]
-    y = [Float64(v) for v in sin(θ)./u]
+    x = [v for v in -cos(θ)./u]
+    y = [v for v in sin(θ)./u]
 
     # TODO: du, outgoing_angle, deflection_angle
     in_angle = atan(tgα)

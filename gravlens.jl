@@ -3,7 +3,7 @@ using ODE
 using Dierckx
 using Roots
 
-set_bigfloat_precision(128);
+set_bigfloat_precision(64);
 
 include("cosmology.jl")
 include("rays.jl")

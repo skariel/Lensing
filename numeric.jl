@@ -18,8 +18,8 @@ function _numeric_f(f, θ, rs, tgα, N=100; abstol=1.0e-9, reltol=1.0e-9, use78=
     du=du[ixs]
     ϕ=ϕ[ixs]
     
-    x = [Float64(v) for v in -cos(ϕ)./u]
-    y = [Float64(v) for v in sin(ϕ)./u]
+    x = [v for v in -cos(ϕ)./u]
+    y = [v for v in sin(ϕ)./u]
 
     out_angle =  ray_angle(ϕ[end], 1/u[end], du[end])
     in_angle =  atan(tgα)
