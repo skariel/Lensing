@@ -1,6 +1,6 @@
 
 
-function _numeric_f(f, θ, rs, tgα, N=100; abstol=1.0e-9, reltol=1.0e-9, use78=false)
+function _numeric_f(f, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17, use78=false)
     tgα = -tgα
     ϕm=π
     ϕl = mylinspace(θ, π, N)    
@@ -27,7 +27,7 @@ function _numeric_f(f, θ, rs, tgα, N=100; abstol=1.0e-9, reltol=1.0e-9, use78=
     x, y, u, du, -in_angle, out_angle, -out_angle-in_angle, ϕ
 end
 
-function numeric(massfunc, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14)
+function numeric(massfunc, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17)
     function f(ϕ, y)
         (u, v) = y
         u_prime = v
@@ -37,7 +37,7 @@ function numeric(massfunc, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14)
     _numeric_f(f, θ, rs, tgα, N; abstol=abstol, reltol=reltol)
 end
 
-function numeric_el(massfunc, rhofunc, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14)
+function numeric_el(massfunc, rhofunc, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17)
     M200 = massfunc(1.0e30) # infinity, ha!
     du = dudθ(θ, tgα, rs)
     u = 1/rs
@@ -54,9 +54,9 @@ function numeric_el(massfunc, rhofunc, θ, rs, tgα, N=100; abstol=1.0e-13, relt
     _numeric_f(f, θ, rs, tgα, N; abstol=abstol, reltol=reltol, use78=true)
 end
 
-numeric_tiso(a, M200, θ, rs, tgα, N=100; abstol=1.0e-13, reltol=1.0e-14) =
+numeric_tiso(a, M200, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17) =
     numeric(r->tiso_m(a, M200, r), θ, rs, tgα, N; abstol=abstol, reltol=reltol) 
 
-numeric_tiso_el(a, M200, θ, rs, tgα, N=100; abstol=1.0e-19, reltol=1.0e-21) =
+numeric_tiso_el(a, M200, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17) =
     numeric_el(r->tiso_m(a, M200, r), r->tiso_ρ(a, M200, r),
                 θ, rs, tgα, N; abstol=abstol, reltol=reltol) 

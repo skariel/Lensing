@@ -87,20 +87,22 @@ function sphere_pick()
     x,y,z
 end
 
-function prepare_proj_mass(massfunc, a, N=10000)
+function prepare_proj_mass(massfunc, a, K, sig, N=10000)
     M200 = massfunc(1.0e30)
     R = R200(a, M200)
-    pm = M200/N # infinity ha!
-    cm = 0.0
-    rp = Float64[]
-    for i in 1:N-1
+    pm = M200/N
+    cm = pm
+    rp = Float64[0.0]
+    for i in 1:N-2
         # find next radius for particle
         cm += pm
         nr = fzero(r->massfunc(r)-cm, 1.0e-10,R)
-        nx, ny, nz = sphere_pick()
-        push!(rp, nr*sqrt(nx*nx + ny*ny))
+        for j in 1:K
+            nx, ny, nz = sphere_pick()
+            push!(rp, nr*sqrt(nx*nx + ny*ny)+randn()*sig)
+        end
     end
-    m = pm.*collect(1:N-1)
+    m = pm.*collect(1:length(rp))
     m = m*M200/m[end]
     rp = sort!(rp)
     rp = rp*R/rp[end]
