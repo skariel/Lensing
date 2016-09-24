@@ -66,3 +66,24 @@ tnfw_m(a, M200, RS, r) =
 tnfw_mp(a, M200, RS, rp) =
     projected_mass(r->tnfw_ρ(a, M200, RS, r), rp, R200(a, M200))
 
+#############################
+#
+#   Exponentially truncated NFW (@ R200)
+#
+###################################################################
+
+function lnfw_ρ(a, M200, RS, r)
+    R=R200(a, M200)
+    rr200 = RS+R
+    k = M200./(log(rr200./RS)-R./rr200)
+    ρ0 = k/4/π/RS/RS/RS
+    x = r./RS
+    ρ0./(x.*(1.0+x).^2) ./ (1.0+exp((r-R)./RS))
+end
+
+lnfw_m(a, M200, RS, r) =
+    cumulative_mass(r->lnfw_ρ(a, M200, RS, r), r, 100*R200(a, M200))
+
+lnfw_mp(a, M200, RS, rp) =
+    projected_mass(r->lnfw_ρ(a, M200, RS, r), rp, 100*R200(a, M200))
+
