@@ -1,16 +1,32 @@
+#############################
+#
+#   Some general functions so we furtehr only need 3D density
+#
+###################################################################
 
+# a general function for cumulative projected mass
+function projected_mass(rhofunc, rp, RMAX)
+    rp = min(rp, RMAX)
+    rp = max(rp, 1.0e-37)
+    function circ_rho_func(r)
+        θ = r<rp ? π/2 : asin(rp/r)
+        rhofunc(r)*4*π*r*r*(1.0-cos(θ))
+    end
+    quadgk(circ_rho_func, 1.0e-37, RMAX)[1]
+end
+
+# a general function for cumulative mass
+function cumulative_mass(rhofunc, r, RMAX)
+    r = min(r, RMAX)
+    r = max(r, 1.0e-37)
+    quadgk(r->4.0*π*r*r*rhofunc(r), 1.0e-37, r)[1]
+end
 
 #############################
 #
 #   Sharply truncated ISOTHERMAL (@ R200)
 #
 ###################################################################
-
-function tiso_m(a, M200, r)
-    R=R200(a, M200)
-    r = min(R, r)
-    M200.*r./R
-end
 
 function tiso_ρ(a, M200, r)
     R=R200(a, M200)
@@ -20,43 +36,17 @@ function tiso_ρ(a, M200, r)
     M200./4./π./R./r./r
 end
 
-function tiso_Ψ(a, M200, rp)
-    R = R200(a, M200)
-    if rp>R
-        return zero(rp)
-    end
-    M200./2./π./R./rp.*atan(sqrt(R.*R./rp./rp-1))
-end
+tiso_m(a, M200, r) =
+    cumulative_mass(r->tiso_ρ(a, M200, r), r, R200(a, M200))
 
-function tiso_mp(a, M200, rp)
-    R = R200(a, M200)
-    rp = min(R, rp)
-    quadgk(rp->2.*π.*rp.*tiso_Ψ(a, M200, rp), 0.0, rp)[1]
-end
+tiso_mp(a, M200, rp) =
+    projected_mass(r->tiso_ρ(a, M200, r), rp, R200(a, M200))
 
 #############################
 #
 #   Sharply truncated NFW (@ R200)
 #
 ###################################################################
-
-function tnfw_m(a, M200, RS, r)
-    if r<=0
-        r=1.0e-3
-    end
-    R=R200(a, M200)
-    rr200 = RS+R
-    k=0.0
-    try
-        k = M200./(log(rr200./RS)-R./rr200)
-    catch
-        @show rr200, RS, R
-        error("xxxxxxxx")
-    end
-    r = min(R, r)
-    rrs = RS+r
-    (log(rrs./RS)-r./rrs).*k
-end
 
 function tnfw_ρ(a, M200, RS, r)
     R=R200(a, M200)
@@ -70,47 +60,9 @@ function tnfw_ρ(a, M200, RS, r)
     ρ0./(x.*(1.0+x).^2)
 end
 
-#############################
-#
-#   Projecting a general density
-#
-###################################################################
+tnfw_m(a, M200, RS, r) =
+    cumulative_mass(r->tnfw_ρ(a, M200, RS, r), r, R200(a, M200))
 
-function sphere_pick()
-    u = rand()
-    v = rand()
-    θ = 2*π*u
-    ϕ = acos(2*v-1)
-    x = cos(θ)*sin(ϕ)
-    y = sin(θ)*sin(ϕ)
-    z = cos(θ)
-    x,y,z
-end
-
-function prepare_proj_mass(massfunc, a, K, N=10000)
-    M200 = massfunc(1.0e30)
-    R = R200(a, M200)
-    pm = M200/N
-    cm = pm
-    rp = Float64[0.0]
-    for i in 1:N-2
-        # find next radius for particle
-        cm += pm
-        nr = fzero(r->massfunc(r)-cm, 1.0e-10,R)
-        for j in 1:K
-            nx, ny, nz = sphere_pick()
-            push!(rp, nr*sqrt(nx*nx + ny*ny))
-        end
-    end
-    m = pm.*collect(1:length(rp))
-    m *= M200/m[end]
-    rp = sort!(rp)
-    rp *= R/rp[end]
-    Spline1D(rp, m; k=5, bc="nearest")
-end
-
-function project_mass(spl, rp)
-    evaluate(spl, rp)
-end
-
+tnfw_mp(a, M200, RS, rp) =
+    projected_mass(r->tnfw_ρ(a, M200, RS, r), rp, R200(a, M200))
 
