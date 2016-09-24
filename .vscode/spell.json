@@ -52,7 +52,8 @@
     "Brenier",
     "subhalos",
     "numerics",
-    "arctan"
+    "arctan",
+    "KNM16"
   ],
   "mistakeTypeToStatus": {
     "Passive voice": "Hint",

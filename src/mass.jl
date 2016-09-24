@@ -87,7 +87,7 @@ function sphere_pick()
     x,y,z
 end
 
-function prepare_proj_mass(massfunc, a, K, sig, N=10000)
+function prepare_proj_mass(massfunc, a, K, N=10000)
     M200 = massfunc(1.0e30)
     R = R200(a, M200)
     pm = M200/N
@@ -99,14 +99,14 @@ function prepare_proj_mass(massfunc, a, K, sig, N=10000)
         nr = fzero(r->massfunc(r)-cm, 1.0e-10,R)
         for j in 1:K
             nx, ny, nz = sphere_pick()
-            push!(rp, nr*sqrt(nx*nx + ny*ny)+randn()*sig)
+            push!(rp, nr*sqrt(nx*nx + ny*ny))
         end
     end
     m = pm.*collect(1:length(rp))
-    m = m*M200/m[end]
+    m *= M200/m[end]
     rp = sort!(rp)
-    rp = rp*R/rp[end]
-    Spline1D(rp, m; k=5, bc="nearest"), rp, m
+    rp *= R/rp[end]
+    Spline1D(rp, m; k=5, bc="nearest")
 end
 
 function project_mass(spl, rp)
