@@ -87,3 +87,24 @@ lnfw_m(a, M200, RS, r) =
 lnfw_mp(a, M200, RS, rp) =
     projected_mass(r->lnfw_ρ(a, M200, RS, r), rp, 100*R200(a, M200))
 
+#############################
+#
+#   Void surrounded NFW (@ R200)
+#
+###################################################################
+
+function vnfw_ρ(a, M200, RS, r; vstart=2.0, vend=3.0)
+    R=R200(a, M200)
+    rr200 = RS+R
+    k = M200./(log(rr200./RS)-R./rr200)
+    ρ0 = k/4/π/RS/RS/RS
+    x = r./RS
+    ρ0./(x.*(1.0+x).^2) ./ (1.0+exp((r-R)./RS)) + RHO_CRIT*OM(a).*(-1./(1.0+exp(-(r-vstart*R)./RS)) ./ (1.0+exp((r-vend*R)./RS))) 
+end
+
+vnfw_m(a, M200, RS, r; vstart=2.0, vend=10.0) =
+    cumulative_mass(r->vnfw_ρ(a, M200, RS, r; vstart=vstart, vend=vend), r, 100*R200(a, M200))
+
+vnfw_mp(a, M200, RS, rp; vstart=2.0, vend=10.0) =
+    projected_mass(r->vnfw_ρ(a, M200, RS, r; vstart=vstart, vend=vend), rp, 100*R200(a, M200))
+
