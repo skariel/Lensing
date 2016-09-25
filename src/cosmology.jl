@@ -63,6 +63,16 @@ function R200(a, m)
     (v200.*3./4./π).^(1/3) 
 end
 
+# line of sight comoving distance
+# (see: https://arxiv.org/pdf/astro-ph/9905116v4.pdf)
+E(z) = sqrt(Ω0.*(1+z).^3+ΩΛ)
+const DH = C/H0
+Dc(z) = DH.*quadgk(z->1.0./E(z), 0, z)[1]
 
+# angular distance, in arcseconds
+rad_to_as(Θ) = Θ*206265
+as_to_rad(Θ) = Θ/206265
+Da_radians(z, dθ) = Dc(z)./(1+z).*dθ
+Da_arcseconds(z, dθ) = Da_radians(z, as_to_rad(dθ) )
 
 
