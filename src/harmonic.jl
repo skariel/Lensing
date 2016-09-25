@@ -1,8 +1,7 @@
 
-function harmonic(a, M200, θ0, tgα0, N=100)
+function harmonic(MX, θ0, tgα0, R, N=100)
     tgα0 = -tgα0
-    R=R200(a,M200)
-    ω=sqrt(1.0-3*M200*G/C/C/R)
+    ω=sqrt(1.0-3*MX*G/C/C/R)
     
     dudθ0 = dudθ(θ0, tgα0, R)
     u0 = 1.0/R
@@ -30,10 +29,16 @@ function harmonic(a, M200, θ0, tgα0, N=100)
     x, y, u, du, -in_angle, out_angle, -out_angle-in_angle, ϕl
 end
 
-function harmonic_e(a, M200, rmin, tgα, N=100)
+harmonic200b(z, M200b, Θ0, tgα0, N) = 
+    harmonic(M200b, Θ0, tgα0, R200b(z, M200b), N)
+harmonic200c(z, M200c, Θ0, tgα0, N) = 
+    harmonic(M200c, Θ0, tgα0, R200c(z, M200c), N)
+harmonicVir(z, MVir, Θ0, tgα0, N) = 
+    harmonic(MVir, Θ0, tgα0, RVIR(z, MVir), N)
+
+function harmonic_e(MX, rmin, tgα, R, N=100)
     tgα =- tgα
-    R=R200(a,M200)
-    m0 = M200*G/C/C
+    m0 = MX*G/C/C
     ω=sqrt(1.0-3*m0/R)
     
     ϕ = linspace(-π/2, π/2, N)
@@ -64,3 +69,9 @@ function harmonic_e(a, M200, rmin, tgα, N=100)
     x, y, u, θ, -in_angle
 end
 
+harmonic_e200b(z, M200b, Θ0, tgα0, N) = 
+    harmonic_e(M200b, Θ0, tgα0, R200b(z, M200b), N)
+harmonic_e200c(z, M200c, Θ0, tgα0, N) = 
+    harmonic_e(M200c, Θ0, tgα0, R200c(z, M200c), N)
+harmonic_eVir(z, MVir, Θ0, tgα0, N) = 
+    harmonic_e(MVir, Θ0, tgα0, RVIR(z, MVir), N)

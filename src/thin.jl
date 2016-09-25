@@ -36,7 +36,18 @@ function thin(proj_massfunc, θ, rs, tgα, N=100)
     x, y, u, du, in_angle, out_angle, deflection_angle, π-atan2(y,x)
 end
 
-thin_tiso(a, M200, θ, rs, tgα, N=100) =
-    thin(r->tiso_mp(a, M200, r), θ, rs, tgα, N)
+# some convenience functions:
 
+thin_tiso200b(z, M200b, θ, rs, tgα, N=100) =
+    thin(r->tiso_mp(M200b, r, R200b(z, M200b)), θ, rs, tgα, N)
+thin_tiso200c(z, M200c, θ, rs, tgα, N=100) =
+    thin(r->tiso_mp(M200c, r, R200c(z, M200c)), θ, rs, tgα, N)
+thin_tisoVir(z, Mvir, θ, rs, tgα, N=100) =
+    thin(r->tiso_mp(Mvir, r, RVIR(z, MVir)), θ, rs, tgα, N)
 
+thin_tnfw200b(z, M200b, Rscale, θ, rs, tgα, N=100) =
+    thin(r->tnfw_mp(M200b, Rscale, r, R200b(z, M200b)), θ, rs, tgα, N)
+thin_tnfw200c(z, M200c, Rscale, θ, rs, tgα, N=100) =
+    thin(r->tnfw_mp(M200c, Rscale, r, R200c(z, M200c)), θ, rs, tgα, N)
+thin_tnfwVir(z, Mvir, Rscale, θ, rs, tgα, N=100) =
+    thin(r->tnfw_mp(Mvir, Rscale, r, RVIR(z, MVir)), θ, rs, tgα, N)
