@@ -63,6 +63,26 @@ function extrapolate_to_meeting(x1,y1,x2,y2)
     xx1,yy1, xx2,yy2
 end
 
+function extrapolate_to_x2(x1,y1,x2)
+    dx1 = x1[end]-x1[end-10]
+    dy1 = y1[end]-y1[end-10]
+    tg1 = dy1/dx1
+
+    xx1 = x1[x1.<x2]
+    yy1 = y1[x1.<x2]
+
+    DX1 = x2-x1[end]
+    DY1 = DX1*tg1
+
+    X = x2
+    Y = y1[end] + DY1
+
+    push!(xx1, X)
+    push!(yy1, Y)
+
+    xx1,yy1
+end
+
 function to_small(v)
     Float64[float(vi) for vi in v]
 end

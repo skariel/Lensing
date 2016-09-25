@@ -92,8 +92,8 @@ end
 lnfw_m(MX, RS, r, RMAX) =
     cumulative_mass(r->lnfw_ρ(MX, RS, r, RMAX), r, 100*RMAX)
 
-lnfw_mp(MX, RS, rp, RXFUNC) =
-    projected_mass(r->lnfw_ρ(MX, RS, r, RXFUNC), rp, 100*RMAX)
+lnfw_mp(MX, RS, rp, RMAX) =
+    projected_mass(r->lnfw_ρ(MX, RS, r, RMAX), rp, 100*RMAX)
 
 #############################
 #
