@@ -22,6 +22,12 @@ function cumulative_mass(rhofunc, r, RMAX)
     quadgk(r->4.0*π*r*r*rhofunc(r), 1.0e-37, r)[1]
 end
 
+# a general function for potential
+function potential(massfunc, r, RMAX)
+    r = max(r, 1.0e-37)
+    quadgk(r->G*massfunc(r)./r./r, 1.0e-37, r)[1]
+end
+
 #############################
 #
 #   Sharply truncated ISOTHERMAL (@ R200)
@@ -71,6 +77,9 @@ function tnfw_m(MX, RS, r, RMAX)
     rrs = RS+r
     (log(rrs./RS)-r./rrs).*k
 end
+
+tnfw_potential(MX, RS, r, RMAX) =
+    potential(r->tnfw_m(MX,RS,r,RMAX), r, RMAX)
 
 tnfw_mp(MX, RS, rp, RMAX) =
     projected_mass(r->tnfw_ρ(MX, RS, r, RMAX), rp, RMAX)

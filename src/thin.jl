@@ -50,4 +50,4 @@ thin_tnfw200b(z, M200b, Rscale, θ, rs, tgα, N=100) =
 thin_tnfw200c(z, M200c, Rscale, θ, rs, tgα, N=100) =
     thin(r->tnfw_mp(M200c, Rscale, r, R200c(z, M200c)), θ, rs, tgα, N)
 thin_tnfwVir(z, Mvir, Rscale, θ, rs, tgα, N=100) =
-    thin(r->tnfw_mp(Mvir, Rscale, r, RVIR(z, MVir)), θ, rs, tgα, N)
+    thin(r->tnfw_mp(Mvir, Rscale, r, RVIR(z, Mvir)), θ, rs, tgα, N)

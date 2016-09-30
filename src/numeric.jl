@@ -1,9 +1,8 @@
 
 
-function _numeric_f(integrand, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17, use78=false)
+function _numeric_f(integrand, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17, use78=false, ϕm=π)
     tgα = -tgα
-    ϕm=π
-    ϕl = mylinspace(θ, π, N)    
+    ϕl = mylinspace(θ, ϕm, N)    
     u0 = 1/rs
     du0 = dudθ(θ, tgα, rs)
     start = [u0; du0];
@@ -27,17 +26,17 @@ function _numeric_f(integrand, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-
     x, y, u, du, -in_angle, out_angle, -out_angle-in_angle, ϕ
 end
 
-function numeric(massfunc, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17)
-    function f(ϕ, y)
+function numeric(massfunc, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17, ϕm=π)
+    function integrand(ϕ, y)
         (u, v) = y
         u_prime = v
         v_prime = 3*rg(massfunc(1./u)).*u.*u-u
         [u_prime; v_prime]    
     end
-    _numeric_f(f, θ, rs, tgα, N; abstol=abstol, reltol=reltol)
+    _numeric_f(integrand, θ, rs, tgα, N; abstol=abstol, reltol=reltol, ϕm=ϕm)
 end
 
-function numeric_el(massfunc, rhofunc, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17)
+function numeric_el(massfunc, rhofunc, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17, ϕm=π)
     M200 = massfunc(1.0e30) # infinity, ha!
     du = dudθ(θ, tgα, rs)
     u = 1/rs
@@ -48,42 +47,42 @@ function numeric_el(massfunc, rhofunc, θ, rs, tgα, N=100; abstol=1.0e-16, relt
         (u, v) = y
         _rg = rg(massfunc(1./u))
         u_prime = v
-        v_prime = 3*_rg.*u.*u-u+e2l2*4*π*G*rhofunc(1./u)/C/C/u/u/u
-        [u_prime; v_prime]    
+        v_prime = 3*_rg.*u.*u-u+(e2l2-u.*u)*4*π*G*rhofunc(1./u)/C/C/u/u/u
+        [u_prime; v_prime]
     end
-    _numeric_f(integrand, θ, rs, tgα, N; abstol=abstol, reltol=reltol, use78=true)
+    _numeric_f(integrand, θ, rs, tgα, N; abstol=abstol, reltol=reltol, use78=true, ϕm=ϕm)
 end
 
 # some convenience functions:
 
-numeric_tiso200b(z, M200b, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17) =
-    numeric(r->tiso_m(M200b, r, R200b(z, M200b)), θ, rs, tgα, N; abstol=abstol, reltol=reltol) 
-numeric_tiso200c(z, M200c, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17) =
-    numeric(r->tiso_m(M200c, r, R200c(z, M200c)), θ, rs, tgα, N; abstol=abstol, reltol=reltol) 
-numeric_tiso_el200b(z, M200b, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17) =
+numeric_tiso200b(z, M200b, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17, ϕm=π) =
+    numeric(r->tiso_m(M200b, r, R200b(z, M200b)), θ, rs, tgα, N; abstol=abstol, reltol=reltol, ϕm=ϕm) 
+numeric_tiso200c(z, M200c, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17, ϕm=π) =
+    numeric(r->tiso_m(M200c, r, R200c(z, M200c)), θ, rs, tgα, N; abstol=abstol, reltol=reltol, ϕm=ϕm) 
+numeric_tiso_el200b(z, M200b, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17, ϕm=π) =
     numeric_el(r->tiso_m(M200b, r, R200b(z, M200b)), r->tiso_ρ(M200b, r, R200b(z, M200b)),
-                θ, rs, tgα, N; abstol=abstol, reltol=reltol) 
-numeric_tiso_el200c(z, M200c, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17) =
+                θ, rs, tgα, N; abstol=abstol, reltol=reltol, ϕm=ϕm) 
+numeric_tiso_el200c(z, M200c, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17, ϕm=π) =
     numeric_el(r->tiso_m(M200c, r, R200c(z, M200c)), r->tiso_ρ(M200c, r, R200c(z, M200c)),
-                θ, rs, tgα, N; abstol=abstol, reltol=reltol) 
-numeric_tisoVir(z, Mvir, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17) =
-    numeric(r->tiso_m(Mvir, r, RVIR(z, MVir)), θ, rs, tgα, N; abstol=abstol, reltol=reltol) 
-numeric_tiso_elVir(z, Mvir, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17) =
-    numeric_el(r->tiso_m(Mvir, r, RVIR(z, MVir)), r->tiso_ρ(Mvir, r, RVIR(z, MVir)),
-                θ, rs, tgα, N; abstol=abstol, reltol=reltol) 
+                θ, rs, tgα, N; abstol=abstol, reltol=reltol, ϕm=ϕm) 
+numeric_tisoVir(z, Mvir, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17, ϕm=π) =
+    numeric(r->tiso_m(Mvir, r, RVIR(z, MVir)), θ, rs, tgα, N; abstol=abstol, reltol=reltol, ϕm=ϕm) 
+numeric_tiso_elVir(z, Mvir, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17, ϕm=π) =
+    numeric_el(r->tiso_m(Mvir, r, RVIR(z, Mvir)), r->tiso_ρ(Mvir, r, RVIR(z, Mvir)),
+                θ, rs, tgα, N; abstol=abstol, reltol=reltol, ϕm=ϕm) 
 
-numeric_tnfw200b(z, M200b, Rscale, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17) =
-    numeric(r->tnfw_m(M200b, Rcalse, r, R200b(z, M200b)), θ, rs, tgα, N; abstol=abstol, reltol=reltol)
-numeric_tnfw200c(z, M200c, Rscale, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17) =
-    numeric(r->tnfw_m(M200c, Rscale, r, R200c(z, M200c)), θ, rs, tgα, N; abstol=abstol, reltol=reltol) 
-numeric_tnfw_el200b(z, M200b, Rscale, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17) =
+numeric_tnfw200b(z, M200b, Rscale, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17, ϕm=π) =
+    numeric(r->tnfw_m(M200b, Rcalse, r, R200b(z, M200b)), θ, rs, tgα, N; abstol=abstol, reltol=reltol, ϕm=ϕm)
+numeric_tnfw200c(z, M200c, Rscale, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17, ϕm=π) =
+    numeric(r->tnfw_m(M200c, Rscale, r, R200c(z, M200c)), θ, rs, tgα, N; abstol=abstol, reltol=reltol, ϕm=ϕm) 
+numeric_tnfw_el200b(z, M200b, Rscale, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17, ϕm=π) =
     numeric_el(r->tnfw_m(M200b, Rscale, r, R200b(z, M200b)), r->tnfw_ρ(M200b, Rscale, r, R200b(z, M200b)),
-                θ, rs, tgα, N; abstol=abstol, reltol=reltol) 
-numeric_tnfw_el200c(z, M200c, Rscale, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17) =
+                θ, rs, tgα, N; abstol=abstol, reltol=reltol, ϕm=ϕm) 
+numeric_tnfw_el200c(z, M200c, Rscale, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17, ϕm=π) =
     numeric_el(r->tnfw_m(M200c, Rscale, r, R200c(z, M200c)), r->tnfw_ρ(M200c, Rscale, r, R200c(z, M200c)),
-                θ, rs, tgα, N; abstol=abstol, reltol=reltol) 
-numeric_tnfwVir(z, Mvir, Rscale, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17) =
-    numeric(r->tnfw_m(Mvir, Rscale, r, RVIR(z, MVir)), θ, rs, tgα, N; abstol=abstol, reltol=reltol) 
-numeric_tnfw_elVir(z, Mvir, Rscale, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17) =
-    numeric_el(r->tnfw_m(Mvir, Rscale, r, RVIR(z, MVir)), r->tnfw_ρ(Mvir, Rscale, r, RVIR(z, MVir)),
-                θ, rs, tgα, N; abstol=abstol, reltol=reltol) 
+                θ, rs, tgα, N; abstol=abstol, reltol=reltol, ϕm=ϕm) 
+numeric_tnfwVir(z, Mvir, Rscale, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17, ϕm=π) =
+    numeric(r->tnfw_m(Mvir, Rscale, r, RVIR(z, MVir)), θ, rs, tgα, N; abstol=abstol, reltol=reltol, ϕm=ϕm) 
+numeric_tnfw_elVir(z, Mvir, Rscale, θ, rs, tgα, N=100; abstol=1.0e-16, reltol=1.0e-17, ϕm=π) =
+    numeric_el(r->tnfw_m(Mvir, Rscale, r, RVIR(z, Mvir)), r->tnfw_ρ(Mvir, Rscale, r, RVIR(z, Mvir)),
+                θ, rs, tgα, N; abstol=abstol, reltol=reltol, ϕm=ϕm) 
