@@ -1,5 +1,5 @@
 
-function thin(proj_massfunc, θ, rs, tgα, N=100)
+function thin(proj_massfunc, θ, rs, tgα, N=100; ext=1.0)
     const cθ = cos(θ)
     const sθ = sin(θ)    
     const x0 = -rs*cθ
@@ -16,7 +16,7 @@ function thin(proj_massfunc, θ, rs, tgα, N=100)
     end
     
     lx = linspace(0.0,1.0,div(N,2)).^3
-    x = [reverse(lx).*x0; lx.*nx]
+    x = [reverse(lx).*x0; lx.*nx.*ext]
     y = zeros(length(x))
     for i in 1:length(x)
         y[i] = if x[i]<0.0
@@ -38,16 +38,16 @@ end
 
 # some convenience functions:
 
-thin_tiso200b(z, M200b, θ, rs, tgα, N=100) =
-    thin(r->tiso_mp(M200b, r, R200b(z, M200b)), θ, rs, tgα, N)
-thin_tiso200c(z, M200c, θ, rs, tgα, N=100) =
-    thin(r->tiso_mp(M200c, r, R200c(z, M200c)), θ, rs, tgα, N)
-thin_tisoVir(z, Mvir, θ, rs, tgα, N=100) =
-    thin(r->tiso_mp(Mvir, r, RVIR(z, MVir)), θ, rs, tgα, N)
+thin_tiso200b(z, M200b, θ, rs, tgα, N=100; ext=1.0) =
+    thin(r->tiso_mp(M200b, r, R200b(z, M200b)), θ, rs, tgα, N; ext=ext)
+thin_tiso200c(z, M200c, θ, rs, tgα, N=100; ext=1.0) =
+    thin(r->tiso_mp(M200c, r, R200c(z, M200c)), θ, rs, tgα, N; ext=ext)
+thin_tisoVir(z, Mvir, θ, rs, tgα, N=100; ext=1.0) =
+    thin(r->tiso_mp(Mvir, r, RVIR(z, MVir)), θ, rs, tgα, N; ext=ext)
 
-thin_tnfw200b(z, M200b, Rscale, θ, rs, tgα, N=100) =
-    thin(r->tnfw_mp(M200b, Rscale, r, R200b(z, M200b)), θ, rs, tgα, N)
-thin_tnfw200c(z, M200c, Rscale, θ, rs, tgα, N=100) =
-    thin(r->tnfw_mp(M200c, Rscale, r, R200c(z, M200c)), θ, rs, tgα, N)
-thin_tnfwVir(z, Mvir, Rscale, θ, rs, tgα, N=100) =
-    thin(r->tnfw_mp(Mvir, Rscale, r, RVIR(z, Mvir)), θ, rs, tgα, N)
+thin_tnfw200b(z, M200b, Rscale, θ, rs, tgα, N=100; ext=1.0) =
+    thin(r->tnfw_mp(M200b, Rscale, r, R200b(z, M200b)), θ, rs, tgα, N; ext=ext)
+thin_tnfw200c(z, M200c, Rscale, θ, rs, tgα, N=100; ext=1.0) =
+    thin(r->tnfw_mp(M200c, Rscale, r, R200c(z, M200c)), θ, rs, tgα, N; ext=ext)
+thin_tnfwVir(z, Mvir, Rscale, θ, rs, tgα, N=100; ext=1.0) =
+    thin(r->tnfw_mp(Mvir, Rscale, r, RVIR(z, Mvir)), θ, rs, tgα, N; ext=ext)
