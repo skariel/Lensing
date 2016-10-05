@@ -5,12 +5,11 @@ function time(phifunc, x, y)
     dpath = sqrt(dx.*dx + dy.*dy)
     phi = zeros(length(dx))
     C2 = C*C
-    for i in 1:length(dx)
+    @inbounds for i in 1:length(dx)
         xc = x[i] + 0.5*dx[i] 
         yc = y[i] + 0.5*dy[i] 
         phi[i] = phifunc(xc,yc)./C2
     end
-    time_dilation = sqrt(1.0-2.*phi)
+    time_dilation = 1.0-2.*phi
     sum(dpath./time_dilation) ./ C
 end
-

@@ -38,43 +38,12 @@ function mylinspace(i,f,N)
     [(1-reverse(l)).*ll+i; l.*lr+π/2]
 end
 
-function extrapolate_to_meeting(x1,y1,x2,y2)
-    dx1 = x1[end]-x1[end-10]
-    dy1 = y1[end]-y1[end-10]
-    tg1 = dy1/dx1
-    dx2 = x2[end]-x2[end-10]
-    dy2 = -(y2[end]-y2[end-10])
-    tg2 = dy2/dx2
-
-    DX2 = (-y1[end-10]-x2[end-10]*tg1+x1[end-10]*tg1-y2[end-10])./(tg1-tg2)
-    X = x2[end-10] + DX2
-    Y = -y2[end-10] + DX2*tg2
-    
-    xx1 = x1[x1.<X]
-    yy1 = y1[x1.<X]
-    xx2 = x2[x2.<X]
-    yy2 = y2[x2.<X]
-    push!(xx1, X)
-    push!(xx2, X)
-
-    push!(yy1, Y)
-    push!(yy2, -Y)
-
-    xx1,yy1, xx2,yy2
-end
-
 function extrapolate_to_meeting_same_side(x1,y1,x2,y2)
-    dx1 = x1[end]-x1[end-10]
-    dy1 = y1[end]-y1[end-10]
-    tg1 = dy1/dx1
-    dx2 = x2[end]-x2[end-10]
-    dy2 = y2[end]-y2[end-10]
-    tg2 = dy2/dx2
+    s1 = Spline1D(x1,y1, k=1, bc="error")
+    s2 = Spline1D(x2,y2, k=1, bc="error")
+    X = fzero(x->evaluate(s1,x)-evaluate(s2,x), 0.0, min(x1[end],x2[end]))
+    Y = evaluate(s1,X)
 
-    DX2 = (-y1[end-10]-x2[end-10]*tg1+x1[end-10]*tg1+y2[end-10])./(tg1-tg2)
-    X = x2[end-10] + DX2
-    Y = y2[end-10] + DX2*tg2
-    
     xx1 = x1[x1.<X]
     yy1 = y1[x1.<X]
     xx2 = x2[x2.<X]
@@ -88,13 +57,15 @@ function extrapolate_to_meeting_same_side(x1,y1,x2,y2)
     xx1,yy1, xx2,yy2
 end
 
-function extrapolate_to_x2(x1,y1,x2)
+function extrapolate_to_x2!(x1,y1,x2)
+    ixs = find(x1.<x2)
+    x1 = x1[ixs]
+    y1 = y1[ixs]
+
+
     dx1 = x1[end]-x1[end-10]
     dy1 = y1[end]-y1[end-10]
     tg1 = dy1/dx1
-
-    xx1 = x1[x1.<x2]
-    yy1 = y1[x1.<x2]
 
     DX1 = x2-x1[end]
     DY1 = DX1*tg1
@@ -102,10 +73,10 @@ function extrapolate_to_x2(x1,y1,x2)
     X = x2
     Y = y1[end] + DY1
 
-    push!(xx1, X)
-    push!(yy1, Y)
+    push!(x1, X)
+    push!(y1, Y)
 
-    xx1,yy1
+    x1, y1
 end
 
 function to_small(v)
