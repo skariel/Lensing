@@ -3,7 +3,7 @@ rg(M) = M.*G./C./C
 function dudθ(θ, tgα, R)
     cθ = cos(θ)
     sθ = sin(θ)
-    (cθ+sθ.*tgα)./R./(sθ-cθ.*tgα) 
+    (cθ+sθ.*tgα)./R./(sθ-cθ.*tgα)
 end
 
 function dduddθ(θ, tgα, R)
