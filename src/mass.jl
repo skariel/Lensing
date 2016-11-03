@@ -25,7 +25,7 @@ end
 # a general function for potential
 function potential(massfunc, r, RMAX)
     r = max(r, 1.0e-37)
-    quadgk(r->G*massfunc(r)./r./r, 1.0e-37, r)[1]
+    quadgk(r->G*massfunc(r)./r./r, 1.0e37, r)[1]
 end
 
 #############################
